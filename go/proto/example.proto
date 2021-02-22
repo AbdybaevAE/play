@@ -1,0 +1,35 @@
+syntax = "proto3"; // syntax of proto file
+
+package github; // service name
+option go_package = ".;pb"; // optional, help code generator names packages in a right way
+
+import "google/api/annotations.proto"; // for using http next to grpc we have to define import
+import "protoc-gen-openapiv2/options/annotations.proto"; // for using openapi generation (describe our services) we have to define import 
+
+service Github {// service name - will be using by code generator on the client side and server side support functions (create service client, create service server), in Endpoints and openapi description
+  rpc LookupUser(LookupUserReq) returns (LookupUserRsp) {// description for method with structures to receive and respond
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {// openapi annotaiont
+      operation_id: "LookupUser"; // operation name in openapi
+      responses: {// type of responses
+        key: "default"; // using by any of response type except standart one described in the method
+        value: {
+          description: "Error response"; // openapi description
+          schema: {json_schema: {ref: ".github.Error";}}; // link to message type, consists with package name and message name
+        }
+      }
+    };
+    option (google.api.http) = {get: "/users/{username}";}; // describes endpoint which should be used connecting to rpc LookupUser via http with method GET and path /users/username. In order to use POST, PUT, PATCH requests also may contain body. Body is defining the same way as path variable, but instead should be using link to message structure. If body is not pre-defined should be used body:'*' declaration.
+  };
+};
+
+message LookupUserReq {// request description
+  string username = 1; // the username field. Name have to be identical to path variable declaration in option google.api.http GET /users/{username}
+};
+
+message LookupUserRsp {// response description
+  string name = 1; // here define only one field from api.github.com - name of user
+};
+
+message Error {// error description
+  string message = 1; // message from api.github.com if user not found
+};
