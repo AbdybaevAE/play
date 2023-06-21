@@ -1,0 +1,8 @@
+@app = http://localhost:5147
+
+GET {{app}}/weatherForecast
+
+
+###
+
+GET {{app}}/weatherForecast/http
