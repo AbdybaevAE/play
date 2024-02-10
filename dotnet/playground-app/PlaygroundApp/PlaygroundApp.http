@@ -1,0 +1,15 @@
+@PlaygroundApp_HostAddress = http://localhost:5240
+
+GET {{PlaygroundApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+GET {{PlaygroundApp_HostAddress}}/metrics/{{$guid}}
+
+
+###
+GET {{PlaygroundApp_HostAddress}}/timeout/1
+
+
+###
+GET {{PlaygroundApp_HostAddress}}

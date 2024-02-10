@@ -28,7 +28,6 @@ public class WeatherForecastController : ControllerBase
         using var activity = DiagnosticsConfig.ActivitySource.StartActivity("SayHello");
         var act = Activity.Current;
         using var activity2 = DiagnosticsConfig.ActivitySource.StartActivity("SayHalloAgain");
-        activity2?.
         return "hello";
     }
     [HttpGet("exception")]
